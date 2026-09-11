@@ -36,7 +36,7 @@ For all qualifying candidate topics found by completing the steps in Section 4 a
   f. Approved: Place the word "Pending" in this column. It will be changed later by a human.
   g. Draft Status: Leave this column blank. It is used by the drafting agent to track whether a topic has been drafted or has failed, and must not be set by this research agent.
   
-  5. **Notification** After appending the rows for all source items that meet the screening criteria, send an email to bruce.schatzman@gmail.com. The body of the email should indicate that the Claude Research Agent added N topics to the Topics tab of the Social Media Google Sheet, where N is the number of rows that were appended to the Topics tab today. It should tell the recipient to review the sheet within 24 hours and approve or reject all topics that are still pending.
+  5. **Notification** After appending the rows for all source items that meet the screening criteria, send an email to bruce.schatzman@gmail.com. The body of the email should indicate that the LinkedIn Research Agent added N topics to the Topics tab of the Social Media Google Sheet, where N is the number of rows that were appended to the Topics tab today. It should tell the recipient to review the sheet within 24 hours and approve or reject all topics that are still pending.
 
 ## SECTION 6: DATA LOGGING (SUPABASE)
 After completing SECTION 5 (or in place of it, if a step below caused an early abort), log this run's outcome to Supabase:
@@ -55,7 +55,7 @@ After completing SECTION 5 (or in place of it, if a step below caused an early a
    insert into public.agent_log (customer_name, agent_name, event_type, message, metadata)
    values (
      'Bruce',
-     'Research Agent',
+     'LinkedIn Research Agent',
      'topics_added',
      'Added 4 topics to the Topics tab',
      '{"topics_added": 4}'::jsonb
