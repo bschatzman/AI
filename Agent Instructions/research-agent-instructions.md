@@ -17,13 +17,13 @@ On the schedule given in SECTION 2 above, follow this search process
 
 3. **Retrieval Limits** Retrieve no more than 10 candidate topics per day.
 
-4. **Retry rules** If the search does not turn up any topics, perform up to 2 retries of this search process to find at least 1 topic. If no topics turn up after 2 retries, send an email to bruce.schatzman@gmail.com with a message stating that no usable topics were found in the search today, then abort this task and try again on the scheduled start time tomorrow.
+4. **Retry rules** If the search does not turn up any topics, perform up to 2 retries of this search process to find at least 1 topic. If no topics turn up after 2 retries, send an email to bruce.schatzman@gmail.com stating that no usable topics were found today, then log this outcome to Supabase per SECTION 6 with event_type 'no_topics_found', message 'No usable topics found after 2 retries', and metadata {"retries": 2} — then abort this task and try again tomorrow.
 
 ## SECTION 5: DATA ENTRY & NOTIFICATION
 For all qualifying candidate topics found by completing the steps in Section 4 above, follow these rules to append topics into the Topics tab of the target Google sheet:
 1. **Check Connection** See if you can access the Topics tab of the target Google sheet. The tab can be found at https://docs.google.com/spreadsheets/d/12lb_Vg_5b0DTw2XSVQV3V9HyYK2yFkwC4g2sYYWikaI/edit?gid=0#gid=0
 
-2. If you cannot access the Topics tab, send an email to bruce.schatzman@gmail.com and indicate in the body of that email that there was a problem connecting to the Google Sheet. Include any error information, if available. After sending this email, abort the current task and try again tomorrow.
+2. If you cannot access the Topics tab, send an email to bruce.schatzman@gmail.com and indicate in the body of that email that there was a problem connecting to the Google Sheet. Include any error information, if available. Then log this outcome to Supabase per SECTION 6, with event_type 'sheet_connection_error', message 'Could not access the Topics tab', and metadata {"error": "<error text, if available>"}. After logging, abort the current task.
 
 3. **Deduplication rule** Before appending a row to the Topics tab, check the URL in all existing rows before appending, and do not append any new rows if the URL already exists.
 
@@ -35,5 +35,32 @@ For all qualifying candidate topics found by completing the steps in Section 4 a
   e. URL: The URL where the source item can be found.
   f. Approved: Place the word "Pending" in this column. It will be changed later by a human.
   g. Draft Status: Leave this column blank. It is used by the drafting agent to track whether a topic has been drafted or has failed, and must not be set by this research agent.
+  
+  5. **Notification** After appending the rows for all source items that meet the screening criteria, send an email to bruce.schatzman@gmail.com. The body of the email should indicate that the Claude Research Agent added N topics to the Topics tab of the Social Media Google Sheet, where N is the number of rows that were appended to the Topics tab today. It should tell the recipient to review the sheet within 24 hours and approve or reject all topics that are still pending.
 
-5. **Notification** After appending the rows for all source items that meet the screening criteria, send an email to bruce.schatzman@gmail.com. The body of the email should indicate that the Claude Research Agent added N topics to the Topics tab of the Social Media Google Sheet, where N is the number of rows that were appended to the Topics tab today. It should tell the recipient to review the sheet within 24 hours and approve or reject all topics that are still pending.
+## SECTION 6: DATA LOGGING (SUPABASE)
+After completing SECTION 5 (or in place of it, if a step below caused an early abort), log this run's outcome to Supabase:
+
+1. **Target** Use the Supabase connector's `execute_sql` tool against project_id `nbacmbjahzlqczpbdywd`, table `public.agent_log`.
+
+2. **Row values** Insert one row per run:
+   a. `customer_name`: 'Bruce Schatzman'
+   b. `agent_name`: 'LinkedIn Research Agent'
+   c. `event_type`: one of 'topics_added', 'no_topics_found', or 'sheet_connection_error', matching which branch of SECTION 4/5 this run ended in
+   d. `message`: a short human-readable summary, e.g. "Added 4 topics to the Topics tab" or "No usable topics found after 2 retries"
+   e. `metadata`: a JSON object with whatever structured detail is useful for that event_type — e.g. `{"topics_added": 4}` for a success, `{"retries": 2}` for no-topics-found, or `{"error": "<error text>"}` for a connection failure
+
+3. **Example insert** (success case):
+```sql
+   insert into public.agent_log (customer_name, agent_name, event_type, message, metadata)
+   values (
+     'Bruce',
+     'Research Agent',
+     'topics_added',
+     'Added 4 topics to the Topics tab',
+     '{"topics_added": 4}'::jsonb
+   );
+```
+
+4. **Do this regardless of outcome** — including the no-topics-found and sheet-connection-failure branches in SECTION 4 — so the log always reflects what happened, not just successful runs.
+
