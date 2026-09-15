@@ -15,9 +15,9 @@ I built a LinkedIn posting "team" that includes:
 
 None of the words here were written by my agents. Maybe you don't believe that because who believes anything is real anymore?
 
-It only took a few hours to get my agents up and running.The problem was that the results were mostly useless. They chose uninteresting topics. The drafts weren't what I would have said, etc.
+It only took a few hours to get my agents up and running. The problem was that the results were mostly useless. They chose uninteresting topics. The drafts weren't what I would have said, etc.
 
-Many of the "runs" failed due to technical issues the agents should have been able to figure out on their own but didn't Refusing to give up, I spent many more hours fine-tuning agent instructions by hand-editing Markdown files to tell my agents:
+Many of the "runs" failed due to technical issues the agents should have been able to figure out on their own but didn't.  Refusing to give up, I spent many more hours fine-tuning agent instructions by hand-editing Markdown files to tell my agents:
 
 a) what to do when they experience problems,
 b) how many times to retry before aborting,
@@ -33,11 +33,11 @@ It's good enough to save me some time researching and rough-drafting LinkedIn po
 
 The moral of the story: Be skeptical of those who brag about AI agents. It's mostly people wanting you to think how AI-savvy they are. Getting agents to do things like you would do them is painful.
 
-Agents need constant refinement and maintenance.It's definitely possible to build AI agents that do useful work and save you lots of time. You can download or buy off-the-shelf agents to do very mechanical things really well. However, getting agents to approach human quality standards and basic common sense is much more difficult than our "agent fans" would want you to believe.
+Agents need constant refinement and maintenance. It's definitely possible to build AI agents that do useful work and save you lots of time. You can download or buy off-the-shelf agents to do very mechanical things really well. However, getting agents to approach human quality standards and basic common sense is much more difficult than our "agent fans" would want you to believe.
 
 ## Post 2
 
-If you're feeling way behind the AI revolution, this brand-new resource from Anthropic called "Claude Academy" is really good It includes a large set of well-organized and easy-to-complete courses that are non-technical. They're perfect to get up to speed quickly and it's completely free.
+If you're feeling way behind the AI revolution, this brand-new resource from Anthropic called "Claude Academy" is really good. It includes a large set of well-organized and easy-to-complete courses that are non-technical. They're perfect to get up to speed quickly and it's completely free.
 
 YouTube has hundreds of AI tutorial videos but many of them are outdated, badly produced, or trying to sell you something. Some are good, but it takes a lot of research to find them.
 
